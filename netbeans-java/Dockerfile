@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Ricardo Sierra "sierra.csi@gmail.com"
+MAINTAINER Fabio Rehm "fgrehm@gmail.com"
 
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
     apt-get update && apt-get install -y software-properties-common && \
@@ -13,7 +13,7 @@ RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
 
 ADD state.xml /tmp/state.xml
 
-RUN wget http://download.netbeans.org/netbeans/8.1/final/bundles/netbeans-8.1-linux.sh -O /tmp/netbeans.sh -q && \
+RUN wget http://download.netbeans.org/netbeans/8.1/final/bundles/netbeans-8.1-javase-linux.sh -O /tmp/netbeans.sh -q && \
     chmod +x /tmp/netbeans.sh && \
     echo 'Installing netbeans' && \
     /tmp/netbeans.sh --silent --state /tmp/state.xml && \
