@@ -10,7 +10,7 @@
 #	jess/slack
 
 FROM debian:stretch
-MAINTAINER Jessie Frazelle <jess@linux.com>
+MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8

@@ -11,7 +11,7 @@
 #	jess/spotify
 #
 FROM debian:sid
-MAINTAINER Jessie Frazelle <jess@linux.com>
+MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
 
 RUN	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886 \
 	&& echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list \

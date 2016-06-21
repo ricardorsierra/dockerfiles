@@ -30,7 +30,7 @@
 # 	rm vboxdrv
 #
 FROM debian:jessie
-MAINTAINER Jessie Frazelle <jess@linux.com>
+MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
 
 RUN apt-get update && apt-get install -y \
 	ca-certificates \

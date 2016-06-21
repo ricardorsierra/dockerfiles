@@ -13,7 +13,7 @@
 #	jess/scudcloud
 
 FROM ubuntu:14.04
-MAINTAINER Jessie Frazelle <jess@linux.com>
+MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
 
 RUN apt-get update && apt-get install -y \
 	dbus-x11 \
