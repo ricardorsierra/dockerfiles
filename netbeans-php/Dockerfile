@@ -2,6 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER Ricardo Sierra "sierra.csi@gmail.com"
 
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
+    apt-get install --reinstall ca-certificates && \
     apt-get update && apt-get install -y software-properties-common && \
     add-apt-repository ppa:webupd8team/java -y && \
     apt-get update && \
