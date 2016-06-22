@@ -1,4 +1,4 @@
-FROM ubuntu::16.04
+FROM ubuntu:xenial
 
 RUN apt-get update -y && \
     apt-get install -y gitk && \
@@ -7,15 +7,5 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 
-RUN chmod +x /usr/local/bin/gitk && \
-    mkdir -p /home/developer && \
-    echo "developer:x:1000:1000:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
-    echo "developer:x:1000:" >> /etc/group && \
-    echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
-    chmod 0440 /etc/sudoers.d/developer && \
-    chown developer:developer -R /home/developer
-
-USER developer
-ENV HOME /home/developer
-WORKDIR /home/developer
-CMD /usr/local/bin/gitk
+WORKDIR /var/www
+CMD gitk
