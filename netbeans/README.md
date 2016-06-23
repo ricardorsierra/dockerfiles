@@ -1,6 +1,10 @@
 # docker-netbeans
 
+<<<<<<< HEAD
 NetBeans v8.1 in a Docker container
+=======
+NetBeans v8.0.1 in a Docker container
+>>>>>>> 5931f0a26c123d0cbdf464acee2d645eb950abff
 
 ## Requirements
 
@@ -17,7 +21,11 @@ within the container:
 
 ```sh
 # The image size is currently 1.131 GB, so go grab a coffee while Docker downloads it
+<<<<<<< HEAD
 docker pull fgrehm/netbeans:v8.1
+=======
+docker pull fgrehm/netbeans:v8.0.1
+>>>>>>> 5931f0a26c123d0cbdf464acee2d645eb950abff
 L=$HOME/bin/netbeans && curl -sL https://github.com/fgrehm/docker-netbeans/raw/master/netbeans > $L && chmod +x $L
 cd /path/to/java/project
 netbeans
@@ -40,7 +48,11 @@ docker run -ti --rm \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -v `pwd`/.netbeans-docker:/home/developer/.netbeans \
            -v `pwd`:/workspace \
+<<<<<<< HEAD
            fgrehm/netbeans:v8.1
+=======
+           fgrehm/netbeans:v8.0.1
+>>>>>>> 5931f0a26c123d0cbdf464acee2d645eb950abff
 ```
 
 ## Help! I started the container but I don't see the NetBeans screen

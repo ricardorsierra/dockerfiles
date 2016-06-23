@@ -20,7 +20,11 @@ RUN npm -v
 # ------------------------------------------------------
 # --- Cordova CLI
 
+<<<<<<< HEAD
 RUN npm install -g cordova@5.0.0
+=======
+RUN npm install -g cordova
+>>>>>>> 5931f0a26c123d0cbdf464acee2d645eb950abff
 RUN cordova -v
 
 # ------------------------------------------------------

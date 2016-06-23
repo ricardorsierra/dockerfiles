@@ -1,2 +1,6 @@
 echo 'This will take a lot of time...'
+<<<<<<< HEAD
 docker build -t sierratecnologia/netbeans:v8.1 .
+=======
+docker build -t fgrehm/netbeans:v8.0.1 .
+>>>>>>> 5931f0a26c123d0cbdf464acee2d645eb950abff

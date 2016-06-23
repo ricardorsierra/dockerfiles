@@ -4,4 +4,8 @@
 if [ -d /home/developer/.netbeans ]; then
   sudo chown developer:developer /home/developer/.netbeans
 fi
+<<<<<<< HEAD
 exec /usr/local/bin/netbeans
+=======
+exec /usr/local/netbeans-8.0.1/bin/netbeans
+>>>>>>> 5931f0a26c123d0cbdf464acee2d645eb950abff
