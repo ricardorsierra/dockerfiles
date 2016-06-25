@@ -2,13 +2,10 @@
 # This is maintained and intended to be run in AWS Docker instances with ECS support.
 # Based on the work by https://github.com/ConSol/docker-headless-vnc-container
 
-FROM ubuntu:14.04
+FROM sierratecnologia/android-sdk
 
-MAINTAINER Craig Williams "craig@ip80.com"
+MAINTAINER Ricardo Sierra "sierra.csi@gmail.com"
 ENV REFRESHED_AT 2015-12-02
-
-ENV JAVA_VERSION 8u65
-ENV JAVA_HOME /usr/lib/jvm/java-$JAVA_VERSION
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DISPLAY :1
@@ -42,13 +39,13 @@ RUN set -x \
  && wget -qO- https://github.com/kanaka/websockify/archive/v0.7.0.tar.gz | tar xz --strip 1 -C $NO_VNC_HOME/utils/websockify \
  && chmod +x -v /root/noVNC/utils/*.sh \
  && : \
- && : Add Oracle JAVA JRE8 \
- && mkdir -p $JAVA_HOME \
- && wget -qO- $SAKULI_DOWNLOAD_URL/3rd-party/java/jre-$JAVA_VERSION-linux-x64.tar.gz | tar xz --strip 1 -C $JAVA_HOME \
- && update-alternatives --install "/usr/bin/java" "java" "$JAVA_HOME/bin/java" 1 \
- && update-alternatives --install "/usr/bin/javaws" "javaws" "$JAVA_HOME/bin/javaws" 1 \
- && update-alternatives --install "/usr/lib/firefox/browser/plugins/mozilla-javaplugin.so" "mozilla-javaplugin.so" "$JAVA_HOME/lib/amd64/libnpjp2.so" 1 \
- && : \
+ # && : Add Oracle JAVA JRE8 \
+ # && mkdir -p $JAVA_HOME \
+ # && wget -qO- $SAKULI_DOWNLOAD_URL/3rd-party/java/jre-$JAVA_VERSION-linux-x64.tar.gz | tar xz --strip 1 -C $JAVA_HOME \
+ # && update-alternatives --install "/usr/bin/java" "java" "$JAVA_HOME/bin/java" 1 \
+ # && update-alternatives --install "/usr/bin/javaws" "javaws" "$JAVA_HOME/bin/javaws" 1 \
+ # && update-alternatives --install "/usr/lib/firefox/browser/plugins/mozilla-javaplugin.so" "mozilla-javaplugin.so" "$JAVA_HOME/lib/amd64/libnpjp2.so" 1 \
+ # && : \
  && : Install chrome browser \
  && apt-get install -y \
 	chromium-browser \
@@ -69,20 +66,20 @@ RUN set -x \
 	nano \
  && apt-get clean \
  && : \
- && : Install Android SDK \
- && wget -qO- http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz | tar xz -C /root/ --no-same-permissions \
- && chmod -R a+rX /root/android-sdk-linux \
- && : \
- && : Install Android tools \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter tools --no-ui --force -a \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter platform-tools --no-ui --force -a \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter platform --no-ui --force -a \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter build-tools-21.0.1 --no-ui -a \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-18 --no-ui -a \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-19 --no-ui -a \
- && echo y | /root/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-21 --no-ui -a
+ # && : Install Android SDK \
+ # && wget -qO- http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz | tar xz -C /root/ --no-same-permissions \
+ # && chmod -R a+rX /root/android-sdk-linux \
+ # && : \
+ # && : Install Android tools \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter tools --no-ui --force -a \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter platform-tools --no-ui --force -a \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter platform --no-ui --force -a \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter build-tools-21.0.1 --no-ui -a \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-18 --no-ui -a \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-19 --no-ui -a \
+ # && echo y | /root/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-21 --no-ui -a
 
-ENV ANDROID_HOME /root/android-sdk-linux
+# ENV ANDROID_HOME /root/android-sdk-linux
 
 
 # xvnc server porst, if $DISPLAY=:1 port will be 5901
