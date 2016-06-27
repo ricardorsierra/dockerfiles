@@ -1,6 +1,12 @@
 FROM sierratecnologia/java:8
 MAINTAINER Ricardo Sierra "sierra.csi@gmail.com"
 
+RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
+    apt-get update && apt-get install -y software-properties-common libxext-dev libxrender-dev libxtst-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+
 ADD state.xml /tmp/state.xml
 
 RUN wget http://download.netbeans.org/netbeans/8.1/final/bundles/netbeans-8.1-php-linux-x64.sh -O /tmp/netbeans.sh -q && \
@@ -12,14 +18,8 @@ RUN wget http://download.netbeans.org/netbeans/8.1/final/bundles/netbeans-8.1-ph
 ADD run /usr/local/bin/netbeans
 
 RUN chmod +x /usr/local/bin/netbeans && \
-    mkdir -p /home/developer && \
-    echo "developer:x:1000:1000:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
-    echo "developer:x:1000:" >> /etc/group && \
-    echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
-    chmod 0440 /etc/sudoers.d/developer && \
-    chown developer:developer -R /home/developer
+    mkdir -p /home/root/.netbeans
 
-USER developer
-ENV HOME /home/developer
-WORKDIR /home/developer
+ENV HOME /home/root
+WORKDIR /home/root
 CMD /usr/local/bin/netbeans
