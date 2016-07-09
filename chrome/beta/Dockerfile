@@ -18,6 +18,8 @@
 FROM debian:sid
 MAINTAINER Jessica Frazelle <jess@docker.com>
 
+DEBIAN_FRONTEND=noninteractive
+
 ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
 
 # Install Chrome
