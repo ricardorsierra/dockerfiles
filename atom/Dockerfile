@@ -34,9 +34,20 @@ RUN buildDeps=' \
 	&& rm -rf /tmp/*.deb \
 	&& apt-get purge -y --auto-remove $buildDeps
 
-# ATOM PLUGINS
-RUN apm install linter-php atom-autocomplete-php php-integrator-refactoring atom-php-navigation \
-		git-blame git-history git-blame minimap
+# ATOM PLUGINS LANGUAGES
+RUN apm install linter linter-php linter-jshint atom-autocomplete-php php-integrator-refactoring atom-php-navigation php-debug
+
+# ATOM MORE PLUGINS CVS and OTHERS
+RUN apm install git-history minimap git-blame project-manager open-recent todo-show highlight-selected minimap-highlight-selected
+
+# ATOM MORE PLUGINS HTML AND CODE BAUTIFY
+RUN apm install autoclose-html emmet beautify file-icons
+
+# ATOM PLUGINS -> PHP
+RUN apm install git-blame project-manager emmet beautify
+
+# ATOM THEMES
+RUN apm install seti-ui
 
 # Autorun atom
 ENTRYPOINT [ "atom", "--foreground" ]
