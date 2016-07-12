@@ -21,4 +21,6 @@ RUN curl -sSL "https://download.sublimetext.com/sublime_text_3_build_3114_x64.ta
 	&& tar -xjf /tmp/sublime.tar.bz2 -C /usr/src/sublime_text --strip-components 1 \
 	&& rm /tmp/sublime.tar.bz2*
 
+ENV LANG "en_US.UTF-8 sublime_text"
+
 CMD ["/usr/src/sublime_text/sublime_text", "-w"]

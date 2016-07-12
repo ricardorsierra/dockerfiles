@@ -35,7 +35,7 @@ RUN buildDeps=' \
 	&& apt-get purge -y --auto-remove $buildDeps
 
 # ATOM PLUGINS LANGUAGES
-RUN apm install linter linter-php linter-jshint atom-autocomplete-php php-integrator-refactoring atom-php-navigation php-debug
+RUN apm install linter linter-php linter-jshint atom-autocomplete-php docblockr php-integrator-refactoring atom-php-navigation php-debug
 
 # ATOM MORE PLUGINS CVS and OTHERS
 RUN apm install git-history minimap git-blame project-manager open-recent todo-show highlight-selected minimap-highlight-selected
@@ -44,7 +44,7 @@ RUN apm install git-history minimap git-blame project-manager open-recent todo-s
 RUN apm install autoclose-html emmet beautify file-icons
 
 # ATOM PLUGINS -> PHP
-RUN apm install git-blame project-manager emmet beautify
+RUN apm install git-blame project-manager emmet atom-beautifier
 
 # ATOM THEMES
 RUN apm install seti-ui
