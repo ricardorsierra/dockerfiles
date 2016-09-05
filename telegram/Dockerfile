@@ -6,7 +6,9 @@ RUN apt-get autoremove -y && \
     rm -rf /tmp/*
     
 RUN wget -O telegram.tar.xz http://telegram.org/dl/desktop/linux && \
+    mkdir telegram && \
     tar xf telegram.tar.xz -C ./telegram && \
+    cd telegram && \
     ./configure && \
     make && \
     make install && \
