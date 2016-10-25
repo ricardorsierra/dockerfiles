@@ -1,0 +1,48 @@
+#!/bin/bash
+
+CAP=$2
+SSID=$3
+WORDLIST_TRESHOLD=${WORDLIST_TRESHOLD:-"2"}
+
+command -v aircrack-ng > /dev/null 2>&1 || { echo "I require aircrack-ng but it's not installed.  Aborting." >&2; exit 1; }
+
+crackloop () {
+    for wl in $(ls *txt.bz2); do
+        WORDLIST_NUMBER="$(ls *txt.bz2|wc -l)"
+        echo "$wl" >> $PWD/wordlist-in-use.log
+        echo "Using wordlist:" "$wl"
+        echo "Wordlists left:" "$WORDLIST_NUMBER"
+        bzcat "$wl" | aircrack-ng -q $PWD/"$CAP" -l $PWD/aircrack-results.log -b "$SSID" -w-
+        rm -v $PWD/"$wl"
+
+        # If we find key add it to variable RESULT
+        # and send key via pushover
+        if [ -e $PWD/aircrack-results.log ]; then
+            RESULT="$(cat $PWD/aircrack-results.log)"
+                if [[ ! -z "$API_KEY" && ! -z "$API_USER" ]]; then
+                    curl -s \
+                    -F "token=$API_KEY" \
+                    -F "user=$API_USER" \
+                    -F "message=${SSID} has key: $RESULT" \
+                    https://api.pushover.net/1/messages.json
+                fi
+        fi
+
+        # If the number of lists is less than $WORDLIST_TRESHOLD
+        # send $WORDLIST_NUMBER via pushover
+        if [ $(ls *txt.bz2|wc -l) -lt "$WORDLIST_TRESHOLD" ]; then
+                if [[ ! -z "$API_KEY" && ! -z "$API_USER" ]]; then
+                    curl -s \
+                    -F "token=$API_KEY" \
+                    -F "user=$API_USER" \
+                    -F "message=Warning: $WORDLIST_NUMBER wordlists left." \
+                    https://api.pushover.net/1/messages.json
+                fi
+        fi
+
+    done
+}
+
+ 
+"$@"
+

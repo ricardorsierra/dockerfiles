@@ -1,0 +1,381 @@
+%YAML 1.1
+---
+runmode: single 
+default-log-dir: /var/log/suricata
+outputs:
+  - fast:
+      enabled: no 
+      filename: alert 
+      append: yes
+  - unified2-alert:
+      enabled: no 
+      filename: unified2.alert
+  - http-log:
+      enabled: no
+      filename: http.log
+      append: yes
+      extended: yes
+  - pcap-info:
+      enabled: no 
+  - alert-debug:
+      enabled: no
+      filename: alert-debug.log
+      append: yes
+  - stats:
+      enabled: no 
+      filename: stats.log
+      interval: 8
+  - file-store:
+      enabled: yes       # set to yes to enable
+      log-dir: files    # directory to store the files
+      force-magic: yes   # force logging magic on all stored files
+      force-md5: yes     # force logging of md5 checksums
+  - file-log:
+      enabled: yes 
+      filename: files-json.log
+      append: yes
+      force-magic: yes   # force logging magic on all logged files
+      force-md5: yes     # force logging of md5 checksums
+  - tls-log:
+      enabled: no  # Log TLS connections.
+      filename: tls.log # File to store TLS logs.
+      extended: yes # Log extended information like fingerprint
+  # "United" event log in JSON format
+  - eve-log:
+      enabled: yes
+      type: file #file|syslog|unix_dgram|unix_stream
+      filename: eve.json
+      # the following are valid when type: syslog above
+      #identity: "suricata" 
+      #facility: local5
+      #level: Info ## possible levels: Emergency, Alert, Critical,
+                   ## Error, Warning, Notice, Info, Debug
+      types:
+        - alert
+        - http:
+            extended: yes     # enable this for extended logging information
+        - dns
+        - tls:
+            extended: yes     # enable this for extended logging information
+        - files:
+            force-magic: yes   # force logging magic on all logged files
+            force-md5: yes     # force logging of md5 checksums
+        #- drop
+        - ssh
+        - smtp
+        - flow
+
+magic-file: /usr/share/file/magic
+af-packet:
+  - interface: eth0
+    threads: 1
+    cluster-id: 99
+    cluster-type: cluster_round_robin
+    defrag: yes
+    use-mmap: yes
+  - interface: eth1
+    threads: 1
+    cluster-id: 98
+    cluster-type: cluster_round_robin
+    defrag: yes
+
+detect-engine:
+  - profile: medium
+  - custom-values:
+      toclient-src-groups: 2
+      toclient-dst-groups: 2
+      toclient-sp-groups: 2
+      toclient-dp-groups: 3
+      toserver-src-groups: 2
+      toserver-dst-groups: 4
+      toserver-sp-groups: 2
+      toserver-dp-groups: 25
+  - sgh-mpm-context: auto
+  - inspection-recursion-limit: 3000
+
+threading:
+  set-cpu-affinity: no
+  cpu-affinity:
+    - management-cpu-set:
+        cpu: [ 0 ]  # include only these cpus in affinity settings
+    - receive-cpu-set:
+        cpu: [ 0 ]  # include only these cpus in affinity settings
+    - decode-cpu-set:
+        cpu: [ 0, 1 ]
+        mode: "balanced"
+    - stream-cpu-set:
+        cpu: [ "0-1" ]
+    - detect-cpu-set:
+        cpu: [ "all" ]
+        mode: "exclusive" # run detect threads in these cpus
+        prio:
+          low: [ 0 ]
+          medium: [ "1-2" ]
+          high: [ 3 ]
+          default: "medium"
+    - verdict-cpu-set:
+        cpu: [ 0 ]
+        prio:
+          default: "high"
+    - reject-cpu-set:
+        cpu: [ 0 ]
+        prio:
+          default: "low"
+    - output-cpu-set:
+        cpu: [ "all" ]
+        prio:
+           default: "medium"
+  detect-thread-ratio: 1.5
+
+cuda:
+  - mpm:
+      packet-buffer-limit: 2400
+      packet-size-limit: 1500
+      packet-buffers: 10
+      batching-timeout: 1
+      page-locked: enabled
+      device-id: 0
+      cuda-streams: 2
+
+mpm-algo: ac
+pattern-matcher:
+  - b2gc:
+      search-algo: B2gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - b2gm:
+      search-algo: B2gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - b2g:
+      search-algo: B2gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - b3g:
+      search-algo: B3gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - wumanber:
+      hash-size: low
+      bf-size: medium
+
+defrag:
+  max-frags: 65535
+  prealloc: yes
+  timeout: 60
+
+flow:
+  memcap: 32mb
+  hash-size: 65536
+  prealloc: 10000
+  emergency-recovery: 30
+  prune-flows: 5
+
+flow-timeouts:
+  default:
+    new: 30
+    established: 300
+    closed: 0
+    emergency-new: 10
+    emergency-established: 100
+    emergency-closed: 0
+  tcp:
+    new: 60
+    established: 3600
+    closed: 120
+    emergency-new: 10
+    emergency-established: 300
+    emergency-closed: 20
+  udp:
+    new: 30
+    established: 300
+    emergency-new: 10
+    emergency-established: 100
+  icmp:
+    new: 30
+    established: 300
+    emergency-new: 10
+    emergency-established: 100
+
+stream:
+  memcap: 32mb
+  checksum-validation: no      # reject wrong csums
+  inline: no                    # no inline mode
+  reassembly:
+    memcap: 64mb
+    depth: 0                  # reassemble 1mb into a stream
+    toserver-chunk-size: 2560
+    toclient-chunk-size: 2560
+
+host:
+  hash-size: 4096
+  prealloc: 1000
+  memcap: 16777216
+
+logging:
+  default-log-level: info
+  default-output-filter:
+  outputs:
+  - console:
+      enabled: yes
+
+pfring:
+  - interface: eth0
+    threads: 1
+    interface: eth0
+    cluster-id: 99
+    cluster-type: cluster_round_robin
+pcap:
+  - interface: eth0
+
+classification-file: /etc/suricata/classification.config
+reference-config-file: /etc/suricata/reference.config
+
+vars:
+  address-groups:
+    HOME_NET: "[192.168.1.0/24]"
+    EXTERNAL_NET: "any"
+    HTTP_SERVERS: "$HOME_NET"
+    SMTP_SERVERS: "$HOME_NET"
+    SQL_SERVERS: "$HOME_NET"
+    DNS_SERVERS: "$HOME_NET"
+    TELNET_SERVERS: "$HOME_NET"
+    AIM_SERVERS: "$EXTERNAL_NET"
+  port-groups:
+    HTTP_PORTS: "80"
+    SHELLCODE_PORTS: "!80"
+    ORACLE_PORTS: 1521
+    SSH_PORTS: 22
+
+action-order:
+  - pass
+  - drop
+  - reject
+  - alert
+
+host-os-policy:
+  windows: [0.0.0.0/0]
+  bsd: []
+  bsd-right: []
+  old-linux: []
+  linux: []
+  old-solaris: []
+  solaris: []
+  hpux10: []
+  hpux11: []
+  irix: []
+  macos: []
+  vista: []
+  windows2k3: []
+
+asn1-max-frames: 256
+
+engine-analysis:
+  rules-fast-pattern: yes
+  rules: yes
+
+pcre:
+  match-limit: 3500
+  match-limit-recursion: 1500
+
+libhtp:
+   default-config:
+     personality: IDS
+     request-body-limit: 0 
+     response-body-limit: 0
+
+     # inspection limits
+     request-body-minimal-inspect-size: 16kb
+     request-body-inspect-window: 16kb
+     response-body-minimal-inspect-size: 1024kb
+     response-body-inspect-window: 32kb
+
+profiling:
+  rules:
+    enabled: yes
+    filename: perf.txt
+    append: yes
+    sort: avgticks
+  packets:
+    enabled: no 
+    filename: packet_stats.log
+    append: yes
+  locks:
+    enabled: no
+    filename: lock_stats.log
+    append: yes
+
+coredump:
+  max-dump: unlimited
+
+app-layer:
+  protocols:
+    tls:
+      enabled: yes
+      detection-ports:
+        dp: 443
+    dcerpc:
+      enabled: yes
+    ftp:
+      enabled: yes
+    ssh:
+      enabled: yes
+    smtp:
+      enabled: yes
+    imap:
+      enabled: detection-only
+    msn:
+      enabled: detection-only
+    smb:
+      enabled: yes
+      detection-ports:
+        dp: 139
+    dns:
+      tcp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+      udp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+    http:
+      enabled: yes
+default-rule-path: /etc/suricata/rules
+rule-files:
+ - emerging-activex.rules
+ - emerging-attack_response.rules
+ - emerging-chat.rules
+ - emerging-current_events.rules
+ - emerging-dns.rules
+ - emerging-dos.rules
+ - emerging-exploit.rules
+ - emerging-ftp.rules
+ - emerging-games.rules
+ - emerging-icmp_info.rules
+# - emerging-icmp.rules
+ - emerging-imap.rules
+ - emerging-inappropriate.rules
+ - emerging-malware.rules
+ - emerging-misc.rules
+ - emerging-mobile_malware.rules
+ - emerging-netbios.rules
+ - emerging-p2p.rules
+ - emerging-policy.rules
+ - emerging-pop3.rules
+ - emerging-rpc.rules
+ - emerging-scada.rules
+ - emerging-scan.rules
+ - emerging-shellcode.rules
+ - emerging-smtp.rules
+ - emerging-snmp.rules
+ - emerging-sql.rules
+ - emerging-telnet.rules
+ - emerging-tftp.rules
+ - emerging-trojan.rules
+ - emerging-user_agents.rules
+ - emerging-voip.rules
+ - emerging-web_client.rules
+ - emerging-web_server.rules
+ - emerging-web_specific_apps.rules
+ - emerging-worm.rules
