@@ -13,7 +13,7 @@ MAINTAINER Claydionei <claydionei@fidelize.com.br>
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_EXTRA_BUILD_DEPS 
+#ENV PHP_EXTRA_BUILD_DEPS 
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-mbstring --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data
 
 ENV GPG_KEYS 1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763
@@ -22,13 +22,14 @@ RUN set -xe \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
 	done
 
-ENV PHP_VERSION 7.1.0
-ENV PHP_FILENAME php-7.0.1.tar.xz
+ENV PHP_VERSION 7.0.13
+ENV PHP_FILENAME php-7.0.13.tar.xz
 ENV PHP_SHA256 84fcb8b9c61f70db802d3b6636c6ba602470a375e593375c0c744483aa0c0357
 
 # --enable-mysqlnd is included below because it's harder to compile after the fact the extensions are (since it's a plugin for several extensions, not an extension in itself)
 RUN buildDeps=" \
 		$PHP_EXTRA_BUILD_DEPS \
+                build-essential \
 		libcurl4-openssl-dev \
 		libreadline6-dev \
 		librecode-dev \
@@ -62,6 +63,7 @@ RUN buildDeps=" \
                 nano \
                 telnet \
                 netstat-nat \
+                tar \
 	" \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \

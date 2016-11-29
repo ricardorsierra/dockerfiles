@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 ENV MALTEGO_VERSION 4.0.11.9358
 
 RUN wget -c http://www.paterva.com/malv4/community/MaltegoCE.v${MALTEGO_VERSION}.deb \
-	&& dpkg -i MaltegoCE.v{MALTEGO_VERSION}.deb
+	&& dpkg -i MaltegoCE.v${MALTEGO_VERSION}.deb
 
 # Autorun maltego
 ENTRYPOINT [ "maltego", "--foreground" ]
