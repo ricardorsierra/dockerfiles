@@ -14,11 +14,11 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV MALTEGO_VERSION 3.4.0.5004
+ENV MALTEGO_VERSION 4.0.11.9358
 
 RUN cd ~/Downloads \
 	&& wget -c https://www.paterva.com/malv34/community/MaltegoCE.v${MALTEGO_VERSION}.deb \
-	&& dpkg -i MaltegoCE.v3.4.0.5004.deb
+	&& dpkg -i MaltegoCE.v{MALTEGO_VERSION}.deb
 
-# Autorun atom
-ENTRYPOINT [ "atom", "--foreground" ]
+# Autorun maltego
+ENTRYPOINT [ "maltego", "--foreground" ]
