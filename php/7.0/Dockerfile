@@ -102,7 +102,7 @@ RUN docker-php-ext-install pgsql pdo_pgsql
 
 # Install Gearman
 RUN cd /root/ && \
-    wget https://github.com/wcgallego/pecl-gearman/archive/master.zip && \
+    wget http://github.com/wcgallego/pecl-gearman/archive/master.zip && \
     unzip master.zip && \
     cd pecl-gearman-master && \
     phpize  && \
