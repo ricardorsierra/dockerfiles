@@ -123,7 +123,7 @@ RUN curl -k -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive
     && docker-php-ext-install redis
 
 # Install Extra PHP Libs
-docker-php-ext-install intl
+RUN docker-php-ext-install intl
 
 # phpunit
 RUN wget --no-check-certificate http://phar.phpunit.de/phpunit.phar && \

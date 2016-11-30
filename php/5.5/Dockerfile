@@ -105,7 +105,7 @@ RUN pecl install zip &&\
     docker-php-ext-install zip
 
 # Install Extra PHP Libs
-docker-php-ext-install intl
+RUN docker-php-ext-install intl
 
 # Install xdebug
 RUN pecl install xdebug &&\
