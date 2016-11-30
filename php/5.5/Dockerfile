@@ -13,18 +13,18 @@ MAINTAINER Claydionei <claydionei@fidelize.com.br>
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-#ENV PHP_EXTRA_BUILD_DEPS 
+ENV PHP_EXTRA_BUILD_DEPS php5-intl
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-mbstring --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data
 
-ENV GPG_KEYS 1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763
+ENV GPG_KEYS 0B96609E270F565C13292B24C13C70B87267B52D 0BD78B5F97500D450838F95DFE857D9A90D90EC1 F38252826ACD957EF380D39F2F7956BC5DA04B5D
 RUN set -xe \
 	&& for key in $GPG_KEYS; do \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
 	done
 
-ENV PHP_VERSION 7.0.13
-ENV PHP_FILENAME php-7.0.13.tar.xz
-ENV PHP_SHA256 357ba7f93975d7d836abed0852dc3ed96a988af539e87750613294cbee82f1bf
+ENV PHP_VERSION 5.5.38
+
+
 
 # --enable-mysqlnd is included below because it's harder to compile after the fact the extensions are (since it's a plugin for several extensions, not an extension in itself)
 RUN buildDeps=" \
@@ -67,13 +67,12 @@ RUN buildDeps=" \
 	" \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-	&& curl -fSL "http://php.net/get/$PHP_FILENAME/from/this/mirror" -o "$PHP_FILENAME" \
-	&& echo "$PHP_SHA256 *$PHP_FILENAME" | sha256sum -c - \
-	&& curl -fSL "http://php.net/get/$PHP_FILENAME.asc/from/this/mirror" -o "$PHP_FILENAME.asc" \
-	&& gpg --verify "$PHP_FILENAME.asc" \
+	&& curl -SL --insecure "http://php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" -o php.tar.xz \
+	&& curl -SL --insecure "http://php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror" -o php.tar.xz.asc \
+	&& gpg --verify php.tar.xz.asc \
 	&& mkdir -p /usr/src/php \
-	&& tar -xf "$PHP_FILENAME" -C /usr/src/php --strip-components=1 \
-	&& rm "$PHP_FILENAME"* \
+	&& tar -xof php.tar.xz -C /usr/src/php --strip-components=1 \
+	&& rm php.tar.xz* \
 	&& cd /usr/src/php \
 	&& ./configure \
 		--with-config-file-path="$PHP_INI_DIR" \
@@ -86,6 +85,7 @@ RUN buildDeps=" \
 		--with-recode \
 		--with-zlib \
                 --enable-pcntl \
+                --with-bz2 \
 	&& make -j"$(nproc)" \
 	&& make install \
 	&& { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
@@ -98,25 +98,13 @@ RUN chmod +x /usr/local/bin/docker-php-ext-*
 
 # Postgres
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql/
-RUN docker-php-ext-install pgsql pdo_pgsql
-
-# Install Gearman
-RUN cd /root/ && \
-    wget https://github.com/wcgallego/pecl-gearman/archive/master.zip && \
-    unzip master.zip && \
-    cd pecl-gearman-master && \
-    phpize  && \
-    ./configure  && \
-    make install  && \
-    cp /root/pecl-gearman-master/modules/gearman.so/usr/local/lib/php/extensions/no-debug-non-zts-20151012/gearman.so && \
-    echo "/usr/local/lib/php/extensions/no-debug-non-zts-20151012/gearman.so" > /usr/local/etc/php/conf.d/gearman.ini
+RUN docker-php-ext-install pgsql pdo_pgsql intl
 
 # Install ZipArchive
 RUN pecl install zip &&\
     docker-php-ext-install zip
 
 # Install Extra PHP Libs
-docker-php-ext-install ast
 docker-php-ext-install intl
 
 # Install xdebug
@@ -124,11 +112,11 @@ RUN pecl install xdebug &&\
     echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" > /usr/local/etc/php/conf.d/ext-xdebug.ini
 
 # Install mongo
-RUN pecl install mongodb &&\
-    echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20151012/mongodb.so" > /usr/local/etc/php/conf.d/ext-mongodb.ini
+RUN pecl install mongo &&\
+    echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/mongo.so" > /usr/local/etc/php/conf.d/ext-mongo.ini
 
 # Install redis
-ENV PHPREDIS_VERSION 3.0.0
+ENV PHPREDIS_VERSION 2.2.7
 RUN curl -k -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
