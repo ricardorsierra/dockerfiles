@@ -97,8 +97,8 @@ COPY build/docker-php-ext-* /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-ext-*
 
 # Postgres
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql/
-RUN docker-php-ext-install pgsql pdo_pgsql
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql/ && \
+    docker-php-ext-install pgsql pdo_pgsql
 
 # Install Gearman
 RUN cd /root/ && \
@@ -108,23 +108,22 @@ RUN cd /root/ && \
     phpize  && \
     ./configure  && \
     make install  && \
-    cp /root/pecl-gearman-master/modules/gearman.so/usr/local/lib/php/extensions/no-debug-non-zts-20151012/gearman.so && \
+    cp /root/pecl-gearman-master/modules/gearman.so /usr/local/lib/php/extensions/no-debug-non-zts-20151012/gearman.so && \
     echo "/usr/local/lib/php/extensions/no-debug-non-zts-20151012/gearman.so" > /usr/local/etc/php/conf.d/gearman.ini
 
 # Install ZipArchive
-RUN pecl install zip &&\
+RUN pecl install zip && \
     docker-php-ext-install zip
 
 # Install Extra PHP Libs
-docker-php-ext-install ast
-docker-php-ext-install intl
+RUN docker-php-ext-install intl
 
 # Install xdebug
-RUN pecl install xdebug &&\
+RUN pecl install xdebug && \
     echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" > /usr/local/etc/php/conf.d/ext-xdebug.ini
 
 # Install mongo
-RUN pecl install mongodb &&\
+RUN pecl install mongodb && \
     echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20151012/mongodb.so" > /usr/local/etc/php/conf.d/ext-mongodb.ini
 
 # Install redis
@@ -136,19 +135,19 @@ RUN curl -k -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive
     && docker-php-ext-install redis
 
 # phpunit
-RUN wget --no-check-certificate https://phar.phpunit.de/phpunit.phar
-RUN mv phpunit.phar /usr/bin/phpunit
-RUN chmod +x /usr/bin/phpunit
+RUN wget --no-check-certificate http://phar.phpunit.de/phpunit.phar && \
+    mv phpunit.phar /usr/bin/phpunit && \
+    chmod +x /usr/bin/phpunit
 
 # phpmd
-RUN wget -c http://static.phpmd.org/php/latest/phpmd.phar
-RUN mv phpmd.phar /usr/bin/phpmd
-RUN chmod +x /usr/bin/phpmd
+RUN wget -c http://static.phpmd.org/php/latest/phpmd.phar && \
+    mv phpmd.phar /usr/bin/phpmd && \
+    chmod +x /usr/bin/phpmd
 
 # composer
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/bin/composer
-RUN chmod +x /usr/bin/composer
+RUN curl -sS http://getcomposer.org/installer | php && \
+    mv composer.phar /usr/bin/composer && \
+    chmod +x /usr/bin/composer
 
 # conf files
 COPY conf/php-fpm.conf /usr/local/etc/
