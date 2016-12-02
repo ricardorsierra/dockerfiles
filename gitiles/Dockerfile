@@ -1,10 +1,11 @@
 FROM java:8-alpine
-MAINTAINER Jessica Frazelle <jess@docker.com>
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 # install buck
 RUN buildDeps=' \
 		apache-ant \
 		bash \
+		curl \
 		git \
 		perl \
 		python \
@@ -12,7 +13,7 @@ RUN buildDeps=' \
 	' \
 	set -x \
 	&& apk --no-cache add $buildDeps \
-	--repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
+	--repository https://dl-3.alpinelinux.org/alpine/edge/community/ \
 	&& git clone --depth 1 https://github.com/facebook/buck.git /buck \
 	&& ( \
 		cd /buck \

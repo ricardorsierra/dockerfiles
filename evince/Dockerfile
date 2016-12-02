@@ -1,4 +1,3 @@
-# VERSION:		0.1
 # DESCRIPTION:	Create evince container with its dependencies (https://wiki.gnome.org/Apps/Evince)
 # AUTHOR:		Christian Koep <christian.koep@fom-net.de>
 # USAGE:
@@ -13,7 +12,7 @@
 #		evince
 #
 
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Christian Koep <christian.koep@fom-net.de>
 
 RUN apt-get -qq update && apt-get install -y \

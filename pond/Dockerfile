@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 ENV GOPATH /go

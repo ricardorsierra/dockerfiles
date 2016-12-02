@@ -1,13 +1,12 @@
-# VERSION:		  0.1
-# DESCRIPTION:	  Termboy in a container 
-# AUTHOR:		  Jessica Frazelle <jess@docker.com>
+# DESCRIPTION:	  Termboy in a container
+# AUTHOR:		  Jessie Frazelle <jess@linux.com>
 # COMMENTS:
 #	This file describes how to build termboy
 #	in a container with all dependencies installed.
 #	Tested on Debian Jessie.
 # USAGE:
 #	# Download termboy Dockerfile
-#	wget http://raw.githubusercontent.com/jfrazelle/dockerfiles/master/termboy/Dockerfile
+#	wget https://raw.githubusercontent.com/jessfraz/dockerfiles/master/termboy/Dockerfile
 #
 #	# Build termboy image
 #	docker build -t termboy .
@@ -18,8 +17,8 @@
 #
 
 # Base docker image
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 

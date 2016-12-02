@@ -6,8 +6,8 @@
 #
 
 # Base docker image
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 # Install all the things
 RUN apt-get update && apt-get install -y \

@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
@@ -18,7 +18,7 @@ RUN git clone --recursive https://github.com/visit1985/mdp.git /src
 WORKDIR /src
 
 ENV TERM	xterm-256color
-ENV DEBUG	1 
+ENV DEBUG	1
 
 RUN make \
 	&& make install

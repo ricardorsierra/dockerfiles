@@ -1,6 +1,5 @@
-# use alpine edge for go 1.6
-FROM alpine:edge
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM alpine:latest
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 ENV GOPATH /go
@@ -10,7 +9,7 @@ RUN	apk --no-cache add \
 	ca-certificates \
 	curl
 
-ENV CONSUL_VERSION v0.6.4
+ENV CONSUL_VERSION v0.7.0
 
 RUN buildDeps=' \
 		bash \

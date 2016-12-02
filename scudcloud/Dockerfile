@@ -12,8 +12,8 @@
 #	--name scudcloud \
 #	jess/scudcloud
 
-FROM ubuntu:14.04
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+FROM ubuntu:16.04
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	dbus-x11 \

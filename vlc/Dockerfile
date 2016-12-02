@@ -9,8 +9,8 @@
 #	--name vlc \
 #	jess/vlc
 #
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	libgl1-mesa-dri \

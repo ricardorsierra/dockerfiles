@@ -1,13 +1,12 @@
-# VERSION:		  0.1
 # DESCRIPTION:	  Create gparted container with its dependencies
-# AUTHOR:		  Jessica Frazelle <jess@docker.com>
+# AUTHOR:		  Jessie Frazelle <jess@linux.com>
 # COMMENTS:
 #	This file describes how to build a gparted container with all
-#	dependencies installed. It uses native X11 unix socket. 
+#	dependencies installed. It uses native X11 unix socket.
 #	Tested on Debian Jessie
 # USAGE:
 #	# Download gparted Dockerfile
-#	wget http://raw.githubusercontent.com/jfrazelle/dockerfiles/master/gparted/Dockerfile
+#	wget https://raw.githubusercontent.com/jessfraz/dockerfiles/master/gparted/Dockerfile
 #
 #	# Build gparted image
 #	docker build -t gparted .
@@ -18,8 +17,8 @@
 #
 
 # Base docker image
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 # Install Gparted and its dependencies
 RUN apt-get update && apt-get install -y \

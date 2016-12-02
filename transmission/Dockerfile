@@ -1,13 +1,12 @@
-# VERSION:		  0.1
 # DESCRIPTION:	  Create transmission container with its dependencies
-# AUTHOR:		  Jessica Frazelle <jess@docker.com>
+# AUTHOR:		  Jessie Frazelle <jess@linux.com>
 # COMMENTS:
 #	This file describes how to build a transmission container with all
 #	dependencies installed.
 #	Tested on Debian Jessie
 # USAGE:
 #	# Download transmission Dockerfile
-#	wget http://raw.githubusercontent.com/jfrazelle/dockerfiles/master/transmission/Dockerfile
+#	wget https://raw.githubusercontent.com/jessfraz/dockerfiles/master/transmission/Dockerfile
 #
 #	# Build transmission image
 #	docker build -t jess/transmission .
@@ -20,7 +19,7 @@
 
 # Base docker image
 FROM alpine:latest
-MAINTAINER Jessica Frazelle <jess@docker.com>
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apk --no-cache add \
 	transmission-daemon \

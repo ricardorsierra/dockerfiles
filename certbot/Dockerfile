@@ -1,9 +1,11 @@
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
 	curl \
+	dirmngr \
+	gnupg \
 	--no-install-recommends
 
 RUN export GNUPGHOME="$(mktemp -d)" \
@@ -16,6 +18,6 @@ RUN export GNUPGHOME="$(mktemp -d)" \
 	&& gpg --trusted-key 4D17C995CD9775F2 --verify certbot-auto.asc certbot-auto \
 	&& mv certbot-auto /usr/local/bin/ \
 	) \
-	&& rm -r "$GNUPGHOME" /tmp
+	&& rm -r "$GNUPGHOME"
 
 ENTRYPOINT [ "certbot-auto" ]

@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	build-essential \
@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 	qml-module-qtquick-dialogs \
 	qml-module-qtquick-localstorage \
 	qml-module-qtquick-window2 \
-	--no-install-recommends \ 
+	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN git clone --recursive https://github.com/Swordfish90/cool-retro-term.git /src

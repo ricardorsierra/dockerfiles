@@ -9,8 +9,8 @@
 #	--name neoman \
 #	jess/neoman
 #
-FROM ubuntu:14.04
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+FROM ubuntu:16.04
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	software-properties-common \
@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
 	add-apt-repository ppa:yubico/stable && \
 	apt-get update && \
 	apt-get install -y \
+	python-setuptools \
 	usbutils \
 	yubikey-neo-manager \
 	&& rm -rf /var/lib/apt/lists/*

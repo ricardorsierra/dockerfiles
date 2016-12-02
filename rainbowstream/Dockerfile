@@ -7,8 +7,8 @@
 #	--name rainbowstream \
 #	jess/rainbowstream
 #
-FROM alpine:latest
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM python:2-alpine
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apk --no-cache add \
 	build-base \
@@ -16,10 +16,10 @@ RUN apk --no-cache add \
 	freetype \
 	freetype-dev \
 	openjpeg-dev \
-	python \
-	python-dev \
-	py-pip \
-	zlib-dev \
-	&& pip install pillow==2.8.0 rainbowstream
+	zlib-dev
+
+RUN USER=root pip install \
+	pillow==2.8.0 \
+	rainbowstream
 
 ENTRYPOINT [ "rainbowstream" ]

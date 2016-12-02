@@ -6,8 +6,8 @@
 #	--name yubico-piv-tool \
 #	jess/yubico-piv-tool
 #
-FROM ubuntu:14.04
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM ubuntu:16.04
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	software-properties-common \

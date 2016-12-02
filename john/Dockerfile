@@ -1,12 +1,12 @@
-FROM debian:sid
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apt-get update && apt-get install -y \
 	libgmp10 \
 	libgomp1 \
 	libkrb5-3 \
 	libnss3 \
-	libssl1.0.0 \
+	libssl1.0.2 \
 	openssl \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*

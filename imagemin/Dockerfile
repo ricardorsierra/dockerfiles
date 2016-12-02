@@ -6,8 +6,8 @@
 #	--entrypoint bash \
 #	jess/imagemin
 #
-FROM alpine
-MAINTAINER Jessica Frazelle <jess@docker.com>
+FROM alpine:latest
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN apk --no-cache add \
 	autoconf \

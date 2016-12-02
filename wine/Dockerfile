@@ -1,6 +1,6 @@
 # Wine docker image base
-FROM debian:jessie
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+FROM debian:stretch
+MAINTAINER Jessie Frazelle <jess@linux.com>
 
 # install wine
 RUN apt-get update && apt-get install -y \
