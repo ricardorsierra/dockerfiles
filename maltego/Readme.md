@@ -6,7 +6,7 @@
 	in a container with all dependencies installed.
  USAGE:
 	# Download maltego Dockerfile
-	wget http://raw.githubusercontent.com/ricardorsierra/dockerfiles/master/maltego/Dockerfile
+	wget http://raw.githubusercontent.com/ricardorsierra/dockerfiles/master/maltego/4.0/Dockerfile
 
 	# Build maltego image
 	docker build -t maltego .
