@@ -2,6 +2,8 @@
 # - version updated to 5.5.21
 # - sqlite support removed
 # - pgsql support added.
+# - mssql support added.
+# - redis support added.
 
 FROM debian:jessie
 
@@ -13,7 +15,7 @@ MAINTAINER Claydionei <claydionei@fidelize.com.br>
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_EXTRA_BUILD_DEPS php5-intl
+ENV PHP_EXTRA_BUILD_DEPS php5-intl php5-sybase
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-mbstring --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data
 
 ENV GPG_KEYS 0B96609E270F565C13292B24C13C70B87267B52D 0BD78B5F97500D450838F95DFE857D9A90D90EC1 F38252826ACD957EF380D39F2F7956BC5DA04B5D
@@ -24,46 +26,51 @@ RUN set -xe \
 
 ENV PHP_VERSION 5.5.38
 
-
+RUN echo "deb http://ftp.debian.org/debian/ jessie-updates main contrib non-free" >> /etc/apt/sources.list
 
 # --enable-mysqlnd is included below because it's harder to compile after the fact the extensions are (since it's a plugin for several extensions, not an extension in itself)
 RUN buildDeps=" \
-		$PHP_EXTRA_BUILD_DEPS \
-                build-essential \
-		libcurl4-openssl-dev \
-		libreadline6-dev \
-		librecode-dev \
-		libssl-dev \
-		libxml2 \
-		libxml2-dev \
-		libpq-dev \
-                libicu-dev \
-		libsasl2-dev \
-                libmcrypt4 \
-                libpng12-0 \
-                libbz2-dev \
-		librecode0 \
-		libsqlite3-0 \
-                libgearman-dev \
-		libc-dev \
-		xz-utils \
-                wget \
-		git \
-		ca-certificates \
-		curl \
-		autoconf \
-		file \
-		g++ \
-		gcc \
-		make \
-		pkg-config \
-		re2c \
-                unzip \
-                vim \
-                nano \
-                telnet \
-                netstat-nat \
-                tar \
+    $PHP_EXTRA_BUILD_DEPS \
+    build-essential \
+    libcurl4-openssl-dev \
+    libreadline6-dev \
+    librecode-dev \
+    libssl-dev \
+    libxml2 \
+    libxml2-dev \
+    libpq-dev \
+    libicu-dev \
+    libsasl2-dev \
+    libmcrypt4 \
+    libmcrypt-dev \
+    libpng12-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libbz2-dev \
+    librecode0 \
+    libsqlite3-0 \
+    libgearman-dev \
+    libsodium-dev \
+    libc-dev \
+    xz-utils \
+    wget \
+    git \
+    ca-certificates \
+    curl \
+    autoconf \
+    file \
+    g++ \
+    gcc \
+    make \
+    pkg-config \
+    re2c \
+    unzip \
+    zip \
+    vim \
+    nano \
+    telnet \
+    netstat-nat \
+    tar \
 	" \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
@@ -98,22 +105,41 @@ RUN chmod +x /usr/local/bin/docker-php-ext-*
 
 # Postgres
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql/ && \
-    docker-php-ext-install pgsql pdo_pgsql intl
+    docker-php-ext-install pgsql pdo_pgsql
+
+# Install Gearman
+RUN pecl install gearman && \
+    echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/gearman.so" > /usr/local/etc/php/conf.d/ext-gearman.ini
 
 # Install ZipArchive
 RUN pecl install zip &&\
     docker-php-ext-install zip
 
+# Install FTP
+RUN docker-php-ext-install ftp
+
+# Install GD
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-install gd
+
 # Install Extra PHP Libs
 RUN docker-php-ext-install intl
 
-# Install xdebug
-RUN pecl install xdebug &&\
-    echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" > /usr/local/etc/php/conf.d/ext-xdebug.ini
+# Install Sodium
+RUN pecl install libsodium && \
+    echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/libsodium.so" > /usr/local/etc/php/conf.d/ext-sodium.ini
 
-# Install mongo
-RUN pecl install mongo &&\
+# Install xdebug
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+# Install mongo e mongodb
+RUN pecl install mongo && \
     echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/mongo.so" > /usr/local/etc/php/conf.d/ext-mongo.ini
+RUN pecl install mongodb && \
+    echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/mongodb.so" > /usr/local/etc/php/conf.d/ext-mongodb.ini
 
 # Install redis
 ENV PHPREDIS_VERSION 2.2.7

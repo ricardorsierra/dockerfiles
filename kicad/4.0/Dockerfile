@@ -1,5 +1,5 @@
 # Base docker image
-FROM sierratecnologia/java:7
+FROM debian:latest
 MAINTAINER Ricardo Rebello Sierra <contato@ricardosierra.com.br>
 
 # Install dependencies
@@ -11,14 +11,10 @@ RUN apt-get update && apt-get install -y \
 	libnotify4 \
 	libnss3 \
 	libxtst6 \
+	kicad
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV MALTEGO_VERSION 4.0.11.9358
-
-RUN wget -c http://www.paterva.com/malv4/community/MaltegoCE.v${MALTEGO_VERSION}.deb \
-	&& dpkg -i MaltegoCE.v${MALTEGO_VERSION}.deb
-
-# Autorun maltego
+# Autorun kicad
 WORKDIR /var/www
-CMD maltego
+CMD gitk
