@@ -9,13 +9,11 @@ FROM debian:jessie
 
 # Custom Dockerfile
 MAINTAINER Ricardo Sierra <ricardo@ricardosierra.com.br>
-MAINTAINER Daniel Pinto <cayan@programmer.net>
-MAINTAINER Claydionei <claydionei@fidelize.com.br>
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_EXTRA_BUILD_DEPS php7.0-sybase
+ENV PHP_EXTRA_BUILD_DEPS php7.0-sybase php7.0-soap
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-mbstring --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data
 
 ENV GPG_KEYS 1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763
@@ -145,6 +143,9 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 
 # Install Extra PHP Libs - Multi Linguagens
 RUN docker-php-ext-install intl
+
+# Soap
+RUN docker-php-ext-install soap
 
 # Install Sodium
 RUN pecl install libsodium && \
