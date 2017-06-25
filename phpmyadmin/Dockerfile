@@ -4,13 +4,13 @@ FROM alpine:3.5
 RUN apk add --no-cache php7-session php7-mysqli php7-mbstring php7-xml php7-gd php7-zlib php7-bz2 php7-zip php7-openssl php7-curl php7-opcache php7-json nginx php7-fpm supervisor
 
 # Include keyring to verify download
-COPY ../phpmyadmin.keyring /
+COPY phpmyadmin.keyring /
 
 # Copy configuration
-COPY ../etc /etc/
+COPY etc /etc/
 
 # Copy main script
-COPY ../run.sh /run.sh
+COPY run.sh /run.sh
 RUN chmod u+rwx /run.sh
 
 # Calculate download URL
