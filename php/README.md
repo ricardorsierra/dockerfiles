@@ -1,3 +1,15 @@
 h1. Docker PHP
 
-Guarda os dock files para criar um instâncias configuradas de servidores PHP no padrão da Fidelize
+## Suport
+- pgsql support
+- mssql support
+- redis support
+- Xdebug support
+- intl, soap, phpmd, composer
+
+## Xdebug
+Xdebug use port 9001 and idekey=docker
+
+## Extra Programs
+vim
+git
