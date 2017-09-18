@@ -137,8 +137,8 @@ RUN docker-php-ext-install intl
 RUN docker-php-ext-install soap
 
 # Install Sodium
-RUN pecl install libsodium && \
-    echo "extension=$PHP_EXTENSIONS_DIR/libsodium.so" > /usr/local/etc/php/conf.d/ext-sodium.ini
+#RUN pecl install libsodium && \
+#    echo "extension=$PHP_EXTENSIONS_DIR/libsodium.so" > /usr/local/etc/php/conf.d/ext-sodium.ini
 
 # Install xdebug
 RUN pecl install xdebug && \
@@ -180,6 +180,9 @@ RUN curl -sS http://getcomposer.org/installer | php && \
 # php7cc
 RUN composer global require sstalle/php7cc && \
     export PATH="$PATH:$HOME/.composer/vendor/bin"
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+		docker-php-ext-install gd
 
 # conf files
 COPY conf/php-fpm.conf /usr/local/etc/
