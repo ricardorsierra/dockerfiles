@@ -8,11 +8,11 @@
 # 	ansible all -m ping
 #
 FROM alpine:latest
-MAINTAINER Christian Koep <christian.koep@fom-net.de>
+LABEL maintainer "Christian Koep <christiankoep@gmail.com>"
 
 RUN builddeps=' \
 		python-dev \
-		py-pip \
+		py2-pip \
 		musl-dev \
 		openssl-dev \
 		libffi-dev \

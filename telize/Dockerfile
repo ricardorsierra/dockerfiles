@@ -1,11 +1,5 @@
-FROM debian:jessie
-MAINTAINER Jessie Frazelle <jess@linux.com>
-
-RUN apt-get update && apt-get install -y \
-	gnupg \
-	--no-install-recommends \
-	&& apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
+FROM debian:stretch
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
@@ -25,6 +19,8 @@ COPY telize.conf /etc/nginx/conf.d/telize.conf
 
 EXPOSE 80 443
 
+ENV TELIZE_VERSION master
+
 RUN buildDeps=' \
 		curl \
 		git \
@@ -33,13 +29,15 @@ RUN buildDeps=' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p /usr/share/GeoIP \
-	&& curl -sSL https://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz -o /usr/share/GeoIP/GeoIP.dat.gz \
-	&& curl -sSL http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -o /usr/share/GeoIP/GeoLiteCity.dat.gz \
-	&& curl -sSL http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum.dat.gz -o /usr/share/GeoIP/GeoIPASNum.dat.gz \
+	&& curl -sSL https://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz -o /usr/share/GeoIP/GeoIPv6.dat.gz \
+	&& curl -sSL http://geolite.maxmind.com/download/geoip/database/GeoLiteCityv6-beta/GeoLiteCityv6.dat.gz -o /usr/share/GeoIP/GeoLiteCityv6.dat.gz \
+	&& curl -sSL http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNumv6.dat.gz -o /usr/share/GeoIP/GeoIPASNumv6.dat.gz \
 	&& gunzip /usr/share/GeoIP/*gz \
-	&& git clone https://github.com/fcambus/telize.git /usr/src/telize \
-	&& cd /usr/src/telize \
-	&& cp timezone*.conf /etc/nginx/ \
+	&& git clone --depth 1 --branch "${TELIZE_VERSION}" https://github.com/fcambus/telize.git /usr/src/telize \
+	&& ( \
+		cd /usr/src/telize \
+		&& cp timezone*.conf /etc/nginx/ \
+	) \
 	&& rm -rf /usr/src/telize \
 	&& apt-get purge -y --auto-remove $buildDeps
 

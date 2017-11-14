@@ -1,15 +1,14 @@
-FROM alpine:latest
-MAINTAINER Jessie Frazelle <jess@linux.com>
+FROM alpine:3.5
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 ENV GOPATH /go
 #ENV GO15VENDOREXPERIMENT 1
 
 RUN	apk --no-cache add \
-	ca-certificates \
-	curl
+	ca-certificates
 
-ENV CONSUL_VERSION v0.7.0
+ENV CONSUL_VERSION v1.0.1-rc1
 
 RUN buildDeps=' \
 		bash \
@@ -26,16 +25,19 @@ RUN buildDeps=' \
 		zip \
 	' \
 	set -x \
-	&& apk --no-cache add $buildDeps \
+	&& apk --no-cache add --repository https://dl-3.alpinelinux.org/alpine/edge/community $buildDeps \
 	&& go get github.com/Soulou/curl-unix-socket \
 	&& mv /go/bin/curl-unix-socket /usr/bin/ \
 	&& mkdir -p /go/src/github.com/hashicorp /etc/consul.d \
-	&& git clone --branch ${CONSUL_VERSION} https://github.com/hashicorp/consul /go/src/github.com/hashicorp/consul \
+	&& git clone --depth 1 --branch ${CONSUL_VERSION} https://github.com/hashicorp/consul /go/src/github.com/hashicorp/consul \
 	&& cd /go/src/github.com/hashicorp/consul \
 	&& XC_ARCH="amd64" XC_OS="linux" make all \
 	&& mv bin/consul /usr/bin/ \
 	&& cd ui \
-	&& gem install bundler io-console --no-ri --no-rdoc \
+	&& gem install \
+		bundler \
+		io-console \
+		--no-ri --no-rdoc \
 	&& bundle install \
 	&& make dist \
 	&& mkdir -p /usr/src/consul \

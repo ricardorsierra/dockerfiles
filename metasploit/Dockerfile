@@ -1,5 +1,5 @@
-FROM kalilinux/kali-linux-docker
-MAINTAINER Christian Koep <christian.koep@fom-net.de>
+FROM r.j3ss.co/kalilinux
+LABEL maintainer "Christian Koep <christiankoep@gmail.com>"
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     metasploit-framework \

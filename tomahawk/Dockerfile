@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apt-get update && apt-get install -y \
 	software-properties-common \

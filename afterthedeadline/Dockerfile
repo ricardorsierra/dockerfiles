@@ -1,5 +1,5 @@
 FROM java:8-alpine
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apk add --no-cache \
 	ca-certificates \
@@ -7,6 +7,7 @@ RUN apk add --no-cache \
 	tar
 
 ENV LANG C.UTF-8
+# https://open.afterthedeadline.com/download/download-source-code/
 ENV ATD_VERSION 081310
 
 RUN curl -sSL "http://www.polishmywriting.com/download/atd_distribution${ATD_VERSION}.tgz" -o /tmp/atd.tar.gz \

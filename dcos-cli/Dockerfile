@@ -1,10 +1,10 @@
 FROM alpine:latest
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apk --no-cache add \
 	ca-certificates \
 	python \
-	py-pip \
+	py2-pip \
 	&& pip install dcoscli
 
 # path to the DCOS CLI binary

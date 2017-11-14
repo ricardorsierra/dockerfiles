@@ -1,19 +1,16 @@
-FROM ubuntu:16.04
-MAINTAINER Justin Garrison <justinleegarrison@gmail.com>
+FROM alpine:latest
 
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
 	weechat \
-	--no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/*
+	weechat-perl \
+	weechat-python
 
-ENV LANG C.UTF-8
 ENV HOME /home/user
 
-RUN useradd --create-home --home-dir $HOME user \
-	&& mkdir -p $HOME/.weechat \
-	&& chown -R user:user $HOME
+RUN adduser -S user \
+	&& chown -R user $HOME
 
 WORKDIR $HOME
 USER user
 
-ENTRYPOINT ["weechat"]
+ENTRYPOINT [ "weechat" ]

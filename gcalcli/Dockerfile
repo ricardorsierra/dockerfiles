@@ -1,12 +1,12 @@
 FROM alpine:latest
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 ENV HOME /home/gcalcli
 
 RUN apk --no-cache add \
 	python \
 	python-dev \
-	py-pip \
+	py2-pip \
 	build-base \
 	&& adduser -S gcalcli \
 	&& chown -R gcalcli $HOME \

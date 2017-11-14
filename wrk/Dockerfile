@@ -1,10 +1,8 @@
-FROM debian:sid
-MAINTAINER Jessie Frazelle <jess@linux.com>
+FROM alpine:latest
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
-RUN apt-get update && apt-get install -y \
+RUN apk --no-cache add \
 	ca-certificates \
-	wrk \
-	--no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/*
+	wrk
 
-ENTRYPOINT [ "wrk" ]
+CMD [ "wrk" ]

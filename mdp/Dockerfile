@@ -1,5 +1,5 @@
 FROM debian:stretch
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN git clone --recursive https://github.com/visit1985/mdp.git /src
+RUN git clone --depth 1 --recursive https://github.com/visit1985/mdp.git /src
 
 WORKDIR /src
 

@@ -11,13 +11,13 @@
 #	jess/spotify
 #
 FROM debian:sid
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN	apt-get update && apt-get install -y \
 	dirmngr \
 	gnupg \
 	--no-install-recommends \
-	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886 \
+	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410 \
 	&& echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list \
 	&& echo "deb http://ftp.de.debian.org/debian jessie main " >> /etc/apt/sources.list.d/workaround.list \
 	&& apt-get update && apt-get install -y \
@@ -25,6 +25,7 @@ RUN	apt-get update && apt-get install -y \
 	libgl1-mesa-dri \
 	libgl1-mesa-glx \
 	libpangoxft-1.0-0 \
+	libpulse0 \
 	libssl1.0.0 \
 	libssl1.0.2 \
 	libxss1 \

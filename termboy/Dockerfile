@@ -18,7 +18,7 @@
 
 # Base docker image
 FROM debian:stretch
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -38,7 +38,7 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/dobyrch/termboy --depth 1 /src \
+RUN git clone --depth 1 https://github.com/dobyrch/termboy /src \
 	&& cd /src \
 	&& make \
 	&& make install || true

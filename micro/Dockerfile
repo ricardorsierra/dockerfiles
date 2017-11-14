@@ -1,10 +1,10 @@
 FROM alpine:latest
-MAINTAINER Christian Koep <christian.koep@fom-net.de>
+LABEL maintainer "Christian Koep <christiankoep@gmail.com>"
 
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 ENV GOPATH /go
 
-ENV MICRO_VERSION v1.1.0
+ENV MICRO_VERSION v1.3.3
 
 RUN buildDeps=' \
 		go \
@@ -17,7 +17,7 @@ RUN buildDeps=' \
 	' \
 	set -x \
 	&& apk --no-cache add $buildDeps \
-	&& git clone --branch "$MICRO_VERSION" https://github.com/zyedidia/micro /go/src/github.com/zyedidia/micro \
+	&& git clone --depth 1 --branch "$MICRO_VERSION" https://github.com/zyedidia/micro /go/src/github.com/zyedidia/micro \
 	&& cd /go/src/github.com/zyedidia/micro \
 	&& mkdir -p /go/bin \
 	&& make install \

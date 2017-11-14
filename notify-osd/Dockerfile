@@ -13,12 +13,12 @@
 #	-v /etc/passwd:/etc/passwd:ro \
 #	-v /etc/group:/etc/group:ro \
 #	-u $(whoami) -w "$HOME" \
-#	-v /home/jessie/.Xauthority:/home/jessie/.Xauthority \
+#	-v $HOME/.Xauthority:$HOME/.Xauthority \
 #	--name notify-osd \
 #	jess/notify-osd
 
 FROM debian:stretch
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apt-get update && apt-get install -y \
 	at-spi2-core \

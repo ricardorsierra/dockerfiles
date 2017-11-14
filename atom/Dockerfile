@@ -20,7 +20,7 @@
 
 # Base docker image
 FROM debian:stretch
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -38,11 +38,12 @@ RUN apt-get update && apt-get install -y \
 	libxkbfile1 \
 	libxss1 \
 	libxtst6 \
+	libx11-xcb-dev \
 	xdg-utils \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV ATOM_VERSION 1.12.5
+ENV ATOM_VERSION 1.22.0
 
 # download the source
 RUN buildDeps=' \

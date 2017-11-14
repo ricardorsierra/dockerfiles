@@ -2,7 +2,11 @@
 set -e
 set -o pipefail
 
+SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-r.j3ss.co}"
+JOBS=${JOBS:-2}
+
+ERRORS="$(pwd)/errors"
 
 build_and_push(){
 	base=$1
@@ -34,45 +38,55 @@ build_and_push(){
 	fi
 }
 
+dofile() {
+	f=$1
+	image=${f%Dockerfile}
+	base=${image%%\/*}
+	build_dir=$(dirname $f)
+	suite=${build_dir##*\/}
+
+	if [[ -z "$suite" ]] || [[ "$suite" == "$base" ]]; then
+		suite=latest
+	fi
+
+	{
+		$SCRIPT build_and_push "${base}" "${suite}" "${build_dir}"
+	} || {
+	# add to errors
+	echo "${base}:${suite}" >> $ERRORS
+}
+echo
+echo
+}
+
 main(){
 	# get the dockerfiles
 	IFS=$'\n'
 	files=( $(find . -iname '*Dockerfile' | sed 's|./||' | sort) )
 	unset IFS
 
-	ERRORS=()
 	# build all dockerfiles
-	for f in "${files[@]}"; do
-		image=${f%Dockerfile}
-		base=${image%%\/*}
-		build_dir=$(dirname $f)
-		suite=${build_dir##*\/}
+	echo "Running in parallel with ${JOBS} jobs."
+	parallel --tag --verbose --ungroup -j"${JOBS}" $SCRIPT dofile "{1}" ::: "${files[@]}"
 
-		if [[ -z "$suite" ]] || [[ "$suite" == "$base" ]]; then
-			suite=latest
-		fi
-
-		if [[ "${base}" == "sup" ]]; then
-			continue
-		fi
-
-		{
-			build_and_push "${base}" "${suite}" "${build_dir}"
-		} || {
-		# add to errors
-		ERRORS+=("${base}:${suite}")
-	}
-	echo
-	echo
-done
-
-if [ ${#ERRORS[@]} -eq 0 ]; then
-	echo "No errors, hooray!"
-else
-	echo "[ERROR] Some images did not build correctly, see below." >&2
-	echo "These images failed: ${ERRORS[@]}" >&2
-	exit 1
-fi
+	if [[ ! -f $ERRORS ]]; then
+		echo "No errors, hooray!"
+	else
+		echo "[ERROR] Some images did not build correctly, see below." >&2
+		echo "These images failed: $(cat $ERRORS)" >&2
+		exit 1
+	fi
 }
 
-main $@
+run(){
+	args=$@
+	f=$1
+
+	if [[ "$f" == "" ]]; then
+		main $args
+	else
+		$args
+	fi
+}
+
+run $@
