@@ -1,5 +1,6 @@
 FROM ubuntu:trusty
-MAINTAINER Ondřej Molík ondrejmo@outlook.com
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 RUN apt-get update && apt-get -y install \
   git \

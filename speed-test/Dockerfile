@@ -1,5 +1,6 @@
 FROM alpine:latest
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ## https://github.com/sindresorhus/speed-test
 # speed-test(){

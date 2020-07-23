@@ -1,5 +1,7 @@
 FROM debian:8
-MAINTAINER Paul Liljenberg "liljenberg.paul@gmail.com"
+
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 
 RUN apt-get update && apt-get -y install \

@@ -1,6 +1,7 @@
 FROM debian:stretch-slim
 
-MAINTAINER NGINX Docker Maintainers "docker-maint@nginx.com"
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ENV NGINX_VERSION 1.13.1-1~stretch
 ENV NJS_VERSION   1.13.1.0.1.10-1~stretch

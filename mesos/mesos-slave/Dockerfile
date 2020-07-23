@@ -1,5 +1,6 @@
 FROM pandrew/mesos
-MAINTAINER Paul Liljenberg liljenberg.paul@gmail.com
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ENTRYPOINT ["mesos-slave"]
 CMD ["--help"]

@@ -1,5 +1,6 @@
 FROM node
-MAINTAINER Paul Liljenberg liljenberg.paul@gmail.com
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 RUN npm install -g peerflix
 

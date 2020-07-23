@@ -1,6 +1,8 @@
 # Base docker image
-FROM sierratecnologia/java:8
-MAINTAINER Ricardo Rebello Sierra <contato@ricardosierra.com.br>
+FROM sierratecnologia/java:7
+
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \

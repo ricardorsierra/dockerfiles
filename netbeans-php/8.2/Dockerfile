@@ -1,5 +1,7 @@
 FROM sierratecnologia/java:8
-MAINTAINER Ricardo Sierra "sierra.csi@gmail.com"
+
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
     apt-get update && apt-get install -y software-properties-common libxext-dev libxrender-dev libxtst-dev && \

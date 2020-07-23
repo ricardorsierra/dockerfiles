@@ -1,5 +1,6 @@
 FROM ubuntu:15.04
-MAINTAINER Paul Liljenberg liljenberg.paul@gmail.com
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 ENV MESOS_VERSION 0.25.0-0.2.70.ubuntu1504
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF \

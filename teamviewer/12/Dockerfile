@@ -1,6 +1,7 @@
 # Base docker image
 FROM debian:jessie
-MAINTAINER Ricardo Rebello Sierra <contato@ricardosierra.com.br>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ENV DEBIAN_FRONTEND noninteractive
 

@@ -1,5 +1,6 @@
 FROM alpine:latest
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 LABEL caddy_version="0.9" hugo_version="0.16" architecture="amd64"
 

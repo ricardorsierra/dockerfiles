@@ -1,5 +1,6 @@
 FROM redis:3.2.9-alpine
-MAINTAINER Ján Koščo (@s7anley)
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 RUN apk add --no-cache \
         curl \

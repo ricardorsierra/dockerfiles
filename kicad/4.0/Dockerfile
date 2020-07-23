@@ -1,6 +1,7 @@
 # Base docker image
 FROM debian:latest
-MAINTAINER Ricardo Rebello Sierra <contato@ricardosierra.com.br>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \

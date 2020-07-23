@@ -1,6 +1,7 @@
 FROM nginx
 
-MAINTAINER Paul Liljenberg "liljenberg.paul@gmail.com"
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 # Install the whois package which contains mkpaswd for crypt
 # to be used with password protected directories.

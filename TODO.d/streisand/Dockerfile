@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 RUN apt-get update && apt-get install -y \
   git \

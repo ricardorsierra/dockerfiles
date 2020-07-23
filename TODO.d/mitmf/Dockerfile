@@ -1,5 +1,6 @@
 FROM ubuntu:wily
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 ADD README.md /README.md
 
 RUN apt-get update && apt-get install -y \

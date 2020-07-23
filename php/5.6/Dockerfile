@@ -8,9 +8,8 @@
 FROM debian:jessie
 
 # Custom Dockerfile
-MAINTAINER Ricardo Sierra <ricardo@ricardosierra.com.br>
-MAINTAINER Daniel Pinto <cayan@programmer.net>
-MAINTAINER Claydionei <claydionei@fidelize.com.br>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d

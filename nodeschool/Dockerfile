@@ -1,5 +1,6 @@
 FROM alpine:latest
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 ADD workshops.txt /workshops.txt
 
 RUN apk update && apk add nodejs \

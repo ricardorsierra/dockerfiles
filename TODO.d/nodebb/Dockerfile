@@ -1,5 +1,6 @@
 FROM node:latest
-MAINTAINER Ondřej Molík ondrejmo@outlook.com
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ## https://github.com/NodeBB/NodeBB
 # docker run -d -p 6379:6379 --name nodebb-redis redis:latest

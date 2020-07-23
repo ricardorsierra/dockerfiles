@@ -4,7 +4,8 @@
 
 FROM sierratecnologia/android-sdk
 
-MAINTAINER Ricardo Sierra "sierra.csi@gmail.com"
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 ENV REFRESHED_AT 2015-12-02
 
 ENV DEBIAN_FRONTEND noninteractive

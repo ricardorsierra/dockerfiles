@@ -1,6 +1,7 @@
 FROM php:7.3-fpm
 
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 RUN apt-get update; \
   apt-get install -y --no-install-recommends \

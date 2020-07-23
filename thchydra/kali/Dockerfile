@@ -1,5 +1,6 @@
 FROM kalilinux/kali-linux-docker
-MAINTAINER Paul Liljenberg "liljenberg.paul@gmail.com"
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ENV	HYDRA_VERSION=8.2-2
 RUN	apt-get update && apt-get -y install \

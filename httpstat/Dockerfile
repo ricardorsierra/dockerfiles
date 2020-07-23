@@ -1,5 +1,6 @@
 FROM golang:alpine
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 ## https://github.com/davecheney/httpstat
 # httpstat() {

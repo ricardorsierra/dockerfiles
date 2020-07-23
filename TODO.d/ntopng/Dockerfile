@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
-MAINTAINER Ondřej Molík <ondrejmo@outlook.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 # docker run -d --name ntopng --net host ondrejmo/ntopng -i eth0 --localnetworks 10.210.0.0/16
 

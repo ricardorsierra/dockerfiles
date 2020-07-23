@@ -1,6 +1,7 @@
 # Start with Ubuntu base image
 FROM ubuntu:16.04
-MAINTAINER Ricardo Sierra <sierra.csi@gmail.com>
+LABEL maintainer="Ricardo Rebello Sierra <contato@ricardosierra.com.br>"
+
 
 # Install OpenSSH
 RUN apt-get update && apt-get install -y openssh-server
