@@ -1,0 +1,56 @@
+{
+    "name": "sierratecnologia/dockercomposers",
+    "description": "S2 Dockercomposers",
+    "type": "library",
+    "keywords": [
+        "sierratecnologia",
+        "docker",
+        "dockercomposer",
+        "containers",
+        "images"
+    ],
+    "license": "MIT",
+    "homepage": "https://sierratecnologia.com.br/packages/dockercomposers/",
+    "support": {
+        "email": "help@sierratecnologia.com.br",
+        "issues": "https://github.com/sierratecnologia/dockercomposers/issues",
+        "source": "https://github.com/sierratecnologia/dockercomposers",
+        "docs": "https://github.com/sierratecnologia/dockercomposers/blob/master/README.md"
+    },
+    "authors": [
+        {
+            "name": "SierraTecnologia",
+            "homepage": "https://sierratecnologia.com.br",
+            "email": "help@sierratecnologia.com.br"
+        }
+    ],
+    "require": {
+        
+    },
+    "require-dev": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+            
+        },
+        "files": [
+            
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            
+        }
+    },
+    "scripts": {
+        
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
