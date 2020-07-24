@@ -14,7 +14,7 @@
 #	--name slack \
 #	jess/slack "$@"
 
-FROM debian:jessie
+FROM debian:bullseye-slim
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 ENV LC_ALL en_US.UTF-8
@@ -39,6 +39,7 @@ RUN echo "deb https://packagecloud.io/slacktechnologies/slack/debian/ jessie mai
 
 RUN apt-get update && apt-get -y install \
 	libasound2 \
+	libgtk-3-0 \
 	libx11-xcb1 \
 	libxkbfile1 \
 	slack-desktop \

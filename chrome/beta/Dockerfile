@@ -10,6 +10,7 @@
 #	-v $HOME/.config/google-chrome/:/data \ # if you want to save state
 #	--security-opt seccomp=$HOME/chrome.json \
 #	--device /dev/snd \ # so we have sound
+#	--device /dev/dri \
 #	-v /dev/shm:/dev/shm \
 #	--name chrome \
 #	jess/chrome:beta
@@ -18,12 +19,8 @@
 # 	wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
 
 # Base docker image
-FROM debian:sid
+FROM debian:bullseye-slim
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
-
-DEBIAN_FRONTEND=noninteractive
-
-ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
 
 # Install Chrome
 RUN apt-get update && apt-get install -y \
@@ -32,9 +29,10 @@ RUN apt-get update && apt-get install -y \
 	curl \
 	gnupg \
 	hicolor-icon-theme \
+	libcanberra-gtk* \
 	libgl1-mesa-dri \
 	libgl1-mesa-glx \
-	libpango1.0-0 \
+	libpangox-1.0-0 \
 	libpulse0 \
 	libv4l-0 \
 	fonts-symbola \
@@ -44,10 +42,8 @@ RUN apt-get update && apt-get install -y \
 	&& apt-get update && apt-get install -y \
 	google-chrome-beta \
 	--no-install-recommends \
-	&& dpkg -i '/src/google-talkplugin_current_amd64.deb' \
 	&& apt-get purge --auto-remove -y curl \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& rm -rf /src/*.deb
+	&& rm -rf /var/lib/apt/lists/*
 
 # Add chrome user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \

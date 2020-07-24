@@ -1,24 +1,26 @@
-FROM ubuntu:16.04
+FROM debian:stretch-slim
 LABEL maintainer "Christian Koep <christiankoep@gmail.com>"
 
-ENV POWERSHELL_VERSION 6.0.0-beta.9
+ENV POWERSHELL_VERSION 7.0.1
 
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
-	curl \
-	libcurl3 \
-	libicu55 \
-	libssl1.0.0 \
-	libunwind8 \
-	liblttng-ust0 \
 	dpkg \
+	libcurl3 \
+	libicu57 \
+	libssl1.0.2 \
+	liblttng-ust0 \
+	libunwind8 \
+	wget \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/src \
-	&& curl -L -O https://github.com/PowerShell/PowerShell/releases/download/v${POWERSHELL_VERSION}/powershell_${POWERSHELL_VERSION}-1.ubuntu.16.04_amd64.deb \
-	&& dpkg -i powershell_${POWERSHELL_VERSION}-1.ubuntu.16.04_amd64.deb \
+	&& wget "https://github.com/PowerShell/PowerShell/releases/download/v${POWERSHELL_VERSION}/powershell_${POWERSHELL_VERSION}-1.debian.9_amd64.deb" -O /tmp/powershell.deb \
+	&& dpkg -i /tmp/powershell.deb \
+	&& ln -snf "/opt/microsoft/powershell/7/pwsh" /usr/bin/pwsh \
 	&& apt-get install -fy \
-	&& rm -rf /var/lib/apt/lists/* /usr/src/*
+	&& rm -rf /var/lib/apt/lists/* /usr/src/* /tmp/powershell.deb \
+	&& which pwsh
 
-ENTRYPOINT [ "/usr/bin/powershell" ]
+ENTRYPOINT [ "/usr/bin/pwsh" ]

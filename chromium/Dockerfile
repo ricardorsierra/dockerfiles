@@ -18,12 +18,11 @@
 # 	wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
 
 # Base docker image
-FROM debian:stretch
+FROM debian:bullseye-slim
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
-ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
-
 # Install Chromium
+# Yes, including the Google API Keys sucks but even debian does the same: https://packages.debian.org/stretch/amd64/chromium/filelist
 RUN apt-get update && apt-get install -y \
       chromium \
       chromium-l10n \
@@ -34,14 +33,13 @@ RUN apt-get update && apt-get install -y \
       libexif-dev \
       libgl1-mesa-dri \
       libgl1-mesa-glx \
-      libpango1.0-0 \
+      libpangox-1.0-0 \
       libv4l-0 \
       fonts-symbola \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /etc/chromium.d/ \
-    && /bin/echo -e 'export GOOGLE_API_KEY="AIzaSyCkfPOPZXDKNn8hhgu3JrA62wIgC93d44k"\nexport GOOGLE_DEFAULT_CLIENT_ID="811574891467.apps.googleusercontent.com"\nexport GOOGLE_DEFAULT_CLIENT_SECRET="kdloedMFGdGla2P1zacGjAQh"' > /etc/chromium.d/googleapikeys \
-    && dpkg -i '/src/google-talkplugin_current_amd64.deb'
+    && /bin/echo -e 'export GOOGLE_API_KEY="AIzaSyCkfPOPZXDKNn8hhgu3JrA62wIgC93d44k"\nexport GOOGLE_DEFAULT_CLIENT_ID="811574891467.apps.googleusercontent.com"\nexport GOOGLE_DEFAULT_CLIENT_SECRET="kdloedMFGdGla2P1zacGjAQh"' > /etc/chromium.d/googleapikeys
 
 # Add chromium user
 RUN groupadd -r chromium && useradd -r -g chromium -G audio,video chromium \

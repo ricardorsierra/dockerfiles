@@ -1,12 +1,27 @@
 ## dockerfiles
 
 Almost all of these live on dockerhub under [sierratecnologia](https://hub.docker.com/u/sierratecnologia/).
+[![make test](https://github.com/sierratecnologia/dockerfiles/workflows/make%20test/badge.svg)](https://github.com/sierratecnologia/dockerfiles/actions?query=workflow%3A%22make+test%22+branch%3Amaster)
 
 You may also want to checkout my [dotfiles](https://github.com/ricardosierra/dotfiles), specifically the aliases for all these files which are here: [github.com/ricardosierra/dotfiles/blob/master/.dockerfunc](https://github.com/ricardosierra/dotfiles/blob/master/.dockerfunc).
 
 Others Links:
 [Ricardo Sierra](https://ricardosierra.com.br/)
 [Sierra Tecnologia](https://ricardosierra.com.br/)
+
+**Table of Contents**
+
+<!-- toc -->
+
+- [About](#about)
+- [Resources](#resources)
+  * [My dotfiles](#my-dotfiles)
+- [Contributing](#contributing)
+  * [Using the `Makefile`](#using-the-makefile)
+
+<!-- tocstop -->
+
+## About
 
 
 
@@ -53,3 +68,28 @@ SierraTecnologia is a software solutions startup, specialized in integrated ente
 This software is released under [The MIT License (MIT)](LICENSE).
 
 (c) 2008-2020 SierraTecnologia, Some rights reserved.
+## Resources
+
+### My dotfiles
+
+You may also want to checkout my [dotfiles](https://github.com/sierratecnologia/dotfiles), specifically the aliases for all these files which are here: [github.com/sierratecnologia/dotfiles/blob/master/.dockerfunc](https://github.com/sierratecnologia/dotfiles/blob/master/.dockerfunc).
+
+## Contributing
+
+I try to make sure each Dockerfile has a command at the top to document running it,
+if a file you are looking at does not have a command, please
+pull request it!
+
+
+### Using the `Makefile`
+
+```
+$ make help
+build                          Builds all the dockerfiles in the repository.
+dockerfiles                    Tests the changes to the Dockerfiles build.
+image                          Build a Dockerfile (ex. DIR=telnet).
+latest-versions                Checks all the latest versions of the Dockerfile contents.
+run                            Run a Dockerfile from the command at the top of the file (ex. DIR=telnet).
+shellcheck                     Runs the shellcheck tests on the scripts.
+test                           Runs the tests on the repository.
+```
