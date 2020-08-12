@@ -20,6 +20,7 @@ RUN apt-get update; \
 # Packages
 RUN apt-get upgrade -y \
     g++ \
+    exif \
     libzip-dev \
     libfreetype6-dev \
     default-mysql-client \
