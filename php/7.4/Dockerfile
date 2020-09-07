@@ -25,6 +25,7 @@ RUN apt-get upgrade -y \
     libfreetype6-dev \
     default-mysql-client \
     libjpeg62-turbo-dev \
+    libonig-dev \
     libpq-dev \
     libmagickwand-dev \
     libmcrypt-dev \
@@ -54,10 +55,11 @@ RUN apt-get upgrade -y \
         zip \
         simplexml \
         xml \
-    && docker-php-ext-configure gd --with-gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
+    && docker-php-ext-configure gd \
+    #--with-gd \
+        #--with-png=/usr/include/ \
+        --with-jpeg=/usr/include/ \
+        --with-freetype=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-install pcntl \
     && docker-php-ext-configure intl \
@@ -69,6 +71,13 @@ RUN apt-get upgrade -y \
     && pecl install trader && docker-php-ext-enable trader \
     && yes '' | pecl install imagick && docker-php-ext-enable imagick \
     && docker-php-ext-enable pcntl
+
+RUN sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 64M/g" $PHP_INI_DIR/php.ini-production
+RUN sed -i -e "s/post_max_size = 8M/post_max_size = 64M/g" $PHP_INI_DIR/php.ini-production
+RUN sed -i -e "s/memory_limit = 128M/memory_limit = 256M/g" $PHP_INI_DIR/php.ini-production
+RUN sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 64M/g" $PHP_INI_DIR/php.ini-development
+RUN sed -i -e "s/post_max_size = 8M/post_max_size = 64M/g" $PHP_INI_DIR/php.ini-development
+RUN sed -i -e "s/memory_limit = 128M/memory_limit = 256M/g" $PHP_INI_DIR/php.ini-development
 
 # composer
 RUN curl -sS http://getcomposer.org/installer | php && \
